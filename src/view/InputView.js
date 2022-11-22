@@ -2,9 +2,6 @@ const MissionUtils = require("@woowacourse/mission-utils");
 const BridgeGame = require("../BridgeGame");
 const ExceptionCheck = require("../ExceptionCheck");
 const OutputView = require("./OutputView");
-const BridgeMaker = require("../BridgeMaker");
-const BridgeRandomNumberGenerator = require("../BridgeRandomNumberGenerator");
-const ggg = require("../ggg");
 
 const InputView = {
   BRIDGE_GAME: new BridgeGame(),
@@ -15,19 +12,13 @@ const InputView = {
     MissionUtils.Console.readLine(
       "다리의 길이를 입력해주세요.",
       (bridgeSize) => {
-        // ggg.ff(bridgeSize, this.readBridgeSize, this.readMoving);
-        // try {
-        //   ExceptionCheck.checkBridgeSize(Number(bridgeSize));
-        //   OutputView.printBridgeSize(bridgeSize);
-        //   const bridge = BridgeMaker.makeBridge(
-        //     Number(bridgeSize),
-        //     BridgeRandomNumberGenerator.generate
-        //   );
-        //   this.readMoving(bridge);
-        // } catch (err) {
-        //   MissionUtils.Console.print(err);
-        //   this.readBridgeSize();
-        // }
+        try {
+          const bridge = ExceptionCheck.checkBridgeSize(Number(bridgeSize));
+          this.readMoving(bridge);
+        } catch (err) {
+          MissionUtils.Console.print(err);
+          this.readBridgeSize();
+        }
       }
     );
   },
@@ -50,6 +41,7 @@ const InputView = {
           );
           this.IDX = idx;
           OutputView.printMap(up, down);
+          this.compareResult = compareResult;
           if (compareResult === "O") {
             this.readMoving(bridge);
             if (idx === bridge.length)
@@ -74,9 +66,10 @@ const InputView = {
       (string) => {
         if (string === "R") {
           this.TRY = this.TRY + 1;
-          this.BRIDGE_GAME.retry(bridge);
+          // this.BRIDGE_GAME.retry(bridge);
+          this.readMoving(bridge);
         } else {
-          printResult({ up, down }, this.TRY, compareResult);
+          OutputView.printResult({ up, down }, this.TRY, this.compareResult);
         }
       }
     );
