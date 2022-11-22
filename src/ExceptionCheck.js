@@ -1,6 +1,3 @@
-const OutputView = require("./view/OutputView");
-const BridgeMaker = require("./BridgeMaker");
-const BridgeRandomNumberGenerator = require("./BridgeRandomNumberGenerator");
 const ExceptionCheck = {
   LOWER_INCLUSIVE: 3,
   UPPER_INCLUSIVE: 20,
@@ -8,11 +5,6 @@ const ExceptionCheck = {
   checkBridgeSize(bridgeSize) {
     this.number(bridgeSize);
     this.range(bridgeSize);
-    OutputView.printBridgeSize(bridgeSize);
-    return BridgeMaker.makeBridge(
-      Number(bridgeSize),
-      BridgeRandomNumberGenerator.generate
-    );
   },
 
   number(size) {
